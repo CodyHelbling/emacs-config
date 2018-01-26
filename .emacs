@@ -5,16 +5,13 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (flymd flycheck-demjsonlint flymake-json json-reformat json-mode 4clojure ac-cider cider flycheck flycheck-clojure flycheck-joker elpy))))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages (quote (better-defaults cider clojure-mode projectile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -22,7 +19,16 @@
  ;; If there is more than one, they won't work right.
  )
 
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(package-initialize)
 
-(require 'ido)
-(ido-mode t)
-(put 'upcase-region 'disabled nil)
+(defvar my-packages '(better-defaults
+                      projectile
+                      clojure-mode
+                      cider))
+
+(dolist (p my-packages)
+  (unless (package-installed-p p)
+    (package-install p)))
